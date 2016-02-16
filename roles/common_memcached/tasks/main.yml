@@ -1,0 +1,10 @@
+---
+
+
+- name: Install Memcached Libraries
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present
+  with_items:
+    - memcached
+    - supervisor

@@ -1,0 +1,14 @@
+---
+
+- name: Create a SPARC virtual machine via vagrant
+  hosts: all
+  remote_user: vagrant
+  roles:
+    - common_base
+    - common_db
+    - common_memcached
+    - common_webserver_static
+    - common_webserver_app
+    - sparc2_db
+    - sparc2_webserver_app
+    - sparc2_webserver_static

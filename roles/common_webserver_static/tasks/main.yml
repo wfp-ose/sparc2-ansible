@@ -1,0 +1,24 @@
+---
+
+- name: "Install Node.js PPA"
+  become: yes
+  become_user: root
+  apt_repository: repo="ppa:{{ item }}"
+  with_items:
+    - "chris-lea/node.js"
+
+- name: Install Static Libraries
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present
+  with_items:
+    - nginx
+    - supervisor
+    - nodejs
+
+- name: Install Node Packages
+  become: yes
+  become_user: root
+  npm: name={{ item }} state=present global=yes
+  with_items:
+    - gulp

@@ -1,0 +1,62 @@
+---
+
+#########################################################
+## See https://github.com/ansible/ansible-modules-extras/issues/681 for potential
+# future performance improvements to npm install
+
+# - name: Install Bower & Gulp to Local Environment
+#  npm: "name={{ item }} path={{ STATIC_SRC }} state=latest"
+#  with_items:
+#    - bower
+#    - gulp
+
+#- name: Install SPARC 2.x Static Development Libraries to Local Environment
+#  npm: path={{ STATIC_SRC }} state=latest
+
+- name: Check Static Development Environment
+  shell: "cat {{ STATIC_SRC }}/node_modules/{{ item.name }}/package.json | jq -r '.version'"
+  with_items: "{{ STATIC_DEV_DEPS }}"
+  register: installed_npm_pkgs
+  failed_when: no
+  changed_when: installed_npm_pkgs.stdout != "{{ item.version }}"
+
+- name: Install Static Development Libraries to Environment
+  npm: name={{ item.item.name }} version={{ item.item.version }} state=present
+  with_items: installed_npm_pkgs.results
+  when: item.changed
+
+#########################################################
+
+- name: Create WWW Root
+  become: yes
+  become_user: root
+  file: "path={{ WWW_ROOT }} state=directory owner=root"
+
+- name: Create Static Destination
+  become: yes
+  become_user: root
+  file: "path={{ STATIC_DEST }} state=directory owner=root"
+
+- name: "Add Virtual Environment Comands to .bash_aliases"
+  lineinfile: "dest=~/.bash_aliases line={{ item }} create=yes"
+  with_items:
+    - "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python"
+    - "export WORKON_HOME=~/.venvs"
+    - "source /usr/local/bin/virtualenvwrapper.sh"
+    - "export PIP_DOWNLOAD_CACHE=$HOME/.pip-downloads"
+    - "export DJANGO_SETTINGS_MODULE={{ PRJ_DJ_NAME }}.settings"
+
+- name: "Create Virtual Environment {{ VENV_NAME }}"
+  command: "virtualenv {{ VENV_PATH }} -p python2.7 creates={{ VENV_PATH }}"
+
+- name: "Install Sparc 2.x"
+  pip: "name={{ PRJ_REPO_PATH }} virtualenv={{ VENV_PATH }} editable=yes"
+  args:
+    chdir: "{{ PRJ_PARENT_PATH }}"
+
+- name: Collect Static
+  become: yes
+  become_user: root
+  shell: "{{ VENV_PATH }}/bin/python manage.py collectstatic --noinput -i gulpfile.js -i package.json -i temp -i node_modules"
+  args:
+    chdir: "{{ PRJ_REPO_PATH }}"
