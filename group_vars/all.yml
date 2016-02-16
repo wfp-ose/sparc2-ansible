@@ -1,0 +1,35 @@
+APP_NAME: SPARC
+APP_VERSION: 2.0
+
+DB_NAME: sparc2
+DB_USER: sparc2
+DB_PASS: sparc2
+
+VENV_NAME: sparc2
+VENV_PATH: /home/vagrant/.venvs/sparc2
+
+STATIC_SRC: /home/vagrant/sparc2.git/sparc2/static/sparc2
+STATIC_DEST: /var/www
+
+WWW_ROOT: /var/www
+
+PRJ_PARENT_PATH: /home/vagrant
+PRJ_REPO_NAME: sparc2.git
+PRJ_REPO_PATH: /home/vagrant/sparc2.git
+PRJ_DJ_NAME: sparc2
+
+REQS: ~/sparc2.git/requirements.txt
+JENKS: "git+https://github.com/perrygeo/jenks.git#egg=jenks"
+
+STATIC_DEV_DEPS:
+  - { name: bower, version: 1.7.7 }
+  - { name: gulp, version: 3.9.1 }
+  - { name: del, version: 2.2.0 }
+  - { name: path, version: 0.12.7 }
+  - { name: jshint, version: 2.9.1 }
+  - { name: gulp-concat, version: 2.6.0 }
+  - { name: gulp-jshint, version: 2.0.0 }
+  - { name: gulp-minify, version: 0.0.5 }
+  - { name: gulp-uglify, version: 1.5.2 }
+  - { name: gulp-rename, version: 1.2.2 }
+  - { name: gulp-less, version: 3.0.5 }

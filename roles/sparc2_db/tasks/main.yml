@@ -1,0 +1,31 @@
+---
+
+- name: Ensure the PostgreSQL service is running
+  service: name=postgresql state=started enabled=yes
+
+- name: Create Sparc2 User
+  become: yes
+  become_user: postgres
+  postgresql_user:
+    name: "{{ DB_USER }}"
+    password: "{{ DB_PASS }}"
+    encrypted: true
+
+- name: Create Sparc2 Database
+  become: yes
+  become_user: postgres
+  postgresql_db:
+    name: "{{ DB_NAME }}"
+    encoding: 'UTF8'
+    template: template_postgis
+    owner: "{{ DB_USER }}"
+
+- name: "Grant All Privileges to {{ DB_USER }}"
+  become: yes
+  become_user: postgres
+  postgresql_privs:
+    db: "{{ DB_NAME }}"
+    role: "{{ DB_USER }}"
+    privs: ALL
+    type: schema
+    objs: public

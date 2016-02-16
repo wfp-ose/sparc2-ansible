@@ -1,0 +1,21 @@
+---
+
+- apt: update_cache=yes
+  become: yes
+  become_user: root
+
+- apt: upgrade=dist
+  become: yes
+  become_user: root
+
+- name: Install Base Libraries
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present
+  with_items:
+    - vim
+    - curl
+    - make
+    - git
+    - unzip
+    - jq

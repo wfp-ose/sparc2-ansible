@@ -1,3 +1,4 @@
 *.DS_Store
 *.swp
 group_vars/all/secret
+.vagrant

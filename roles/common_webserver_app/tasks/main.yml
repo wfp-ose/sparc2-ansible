@@ -1,0 +1,62 @@
+---
+
+- name: "Install UbuntuGIS PPA"
+  become: yes
+  become_user: root
+  apt_repository: repo="ppa:{{ item }}"
+  with_items:
+    - "ubuntugis/ubuntugis-unstable"
+
+- name: Install Basic Libraries
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present
+  with_items:
+    - supervisor
+    - build-essential
+    - libxml2-dev
+    - libxslt1-dev
+    - libjpeg-dev
+    - gettext
+
+- name: Install GIS Libraries
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present
+  with_items:
+    - libgdal1h
+    - libgdal-dev
+    - libgeos-dev
+    - libproj-dev
+    - libpq-dev
+
+- name: Install Python Libraries
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present
+  with_items:
+    - python-dev
+    - python-pip
+    - python-virtualenv
+    - python-gdal
+    - python-psycopg2
+    - python-django
+    - python-django-extensions
+    - python-httplib2
+    - cython
+    - gdal-bin
+
+- name: Install Java
+  become: yes
+  become_user: root
+  apt: name={{ item }} state=present install_recommends=no
+  with_items:
+    - openjdk-6-jdk
+
+- name: Install virtualenvwrapper and Paver"
+  become: yes
+  become_user: root
+  pip: name={{ item }} state=present
+  with_items:
+    - virtualenvwrapper
+    - paver
