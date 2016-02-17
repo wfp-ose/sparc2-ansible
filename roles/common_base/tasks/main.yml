@@ -1,10 +1,12 @@
 ---
 
-- apt: update_cache=yes
+- name: "apt-get update"
+  apt: update_cache=yes
   become: yes
   become_user: root
 
-- apt: upgrade=dist
+- name: "apt-get upgrade"
+  apt: upgrade=dist
   become: yes
   become_user: root
 

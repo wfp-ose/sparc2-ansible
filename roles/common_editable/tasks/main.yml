@@ -1,0 +1,4 @@
+---
+
+- include: editable.yml
+  with_items: "{{ COMMON_EDITABLE_PACKAGES }}"

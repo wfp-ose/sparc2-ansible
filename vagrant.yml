@@ -9,6 +9,9 @@
     - common_memcached
     - common_webserver_static
     - common_webserver_app
-    - sparc2_db
-    - sparc2_webserver_app
+    - sparc2_db  # Create sparc2 PostGIS database
+    - common_venv  # Create python virtual environment from VENV_NAME and VENV_PATH
+    - sparc2_webserver_app  # Installs sparc2 requirements.txt and others (cython, jenks, etc.)
+    - common_gdal  # Install GDAL to python virtual environment
+    - common_editable  # Installs local sparc2.git and geosite-framework.git repos as editable
     - sparc2_webserver_static

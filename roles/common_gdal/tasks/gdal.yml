@@ -1,0 +1,18 @@
+---
+#  Suppress output with suffix > /dev/null 2>&1
+
+- name: "GDAL Python Bindings / Download"
+  shell: "{{ VENV_PATH }}/bin/pip install --no-install GDAL==1.10.0"
+
+- name: "GDAL Python Bindings / Config"
+  shell: "sed -i \"s/\\.\\.\\/\\.\\.\\/apps\\/gdal-config/\\/usr\\/bin\\/gdal-config/g\" setup.cfg"
+  args:
+    chdir: "{{ VENV_PATH }}/build/GDAL"
+
+- name: "GDAL Python Bindings / Install"
+  shell: "{{ item }}"
+  args:
+    chdir: "{{ VENV_PATH }}/build/GDAL"
+  with_items:
+    - "{{ VENV_PATH }}/bin/python setup.py build_ext --include-dirs=/usr/include/gdal"
+    - "{{ VENV_PATH }}/bin/pip install --no-download GDAL==1.10"

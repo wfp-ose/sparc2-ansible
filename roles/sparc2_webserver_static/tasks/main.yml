@@ -37,26 +37,9 @@
   become_user: root
   file: "path={{ STATIC_DEST }} state=directory owner=root"
 
-- name: "Add Virtual Environment Comands to .bash_aliases"
-  lineinfile: "dest=~/.bash_aliases line={{ item }} create=yes"
-  with_items:
-    - "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python"
-    - "export WORKON_HOME=~/.venvs"
-    - "source /usr/local/bin/virtualenvwrapper.sh"
-    - "export PIP_DOWNLOAD_CACHE=$HOME/.pip-downloads"
-    - "export DJANGO_SETTINGS_MODULE={{ PRJ_DJ_NAME }}.settings"
-
-- name: "Create Virtual Environment {{ VENV_NAME }}"
-  command: "virtualenv {{ VENV_PATH }} -p python2.7 creates={{ VENV_PATH }}"
-
-- name: "Install Sparc 2.x"
-  pip: "name={{ PRJ_REPO_PATH }} virtualenv={{ VENV_PATH }} editable=yes"
-  args:
-    chdir: "{{ PRJ_PARENT_PATH }}"
-
 - name: Collect Static
   become: yes
   become_user: root
-  shell: "{{ VENV_PATH }}/bin/python manage.py collectstatic --noinput -i gulpfile.js -i package.json -i temp -i node_modules"
+  shell: "{{ VENV_PATH }}/bin/python manage.py collectstatic --noinput -i gulpfile.js -i package.json -i temp -i node_modules > /dev/null 2>&1"
   args:
-    chdir: "{{ PRJ_REPO_PATH }}"
+    chdir: "{{ PRJ_REPO_PATH.sparc }}"
