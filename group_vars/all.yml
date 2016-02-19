@@ -16,9 +16,7 @@ WWW_ROOT: /var/www
 PRJ_PARENT_PATH: /home/vagrant
 PRJ_REPO_NAME: sparc2.git
 
-PRJ_REPO_PATH:
-  sparc: /home/vagrant/sparc2.git
-  geosite: /home/vagrant/geosite-framework-django.git
+PRJ_REPO_PATH_MAIN: /home/vagrant/sparc2.git
 PRJ_DJ_NAME: sparc2
 
 REQS:
