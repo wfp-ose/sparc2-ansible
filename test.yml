@@ -4,5 +4,4 @@
   hosts: all
   remote_user: vagrant
   roles:
-    - common_editable  # Installs local sparc2.git and geosite-framework.git repos as editable
-    - common_gdal
+    - sparc2_db  # Installs local sparc2.git and geosite-framework.git repos as editable

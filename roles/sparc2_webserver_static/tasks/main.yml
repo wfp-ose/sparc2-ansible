@@ -13,12 +13,24 @@
 #- name: Install SPARC 2.x Static Development Libraries to Local Environment
 #  npm: path={{ STATIC_SRC }} state=latest
 
+#########################################################
+
+- name: "Update NGINX / sites-available/default"
+  become: yes
+  become_user: root
+  action: template src=templates/nginx.sites-available.default.j2 dest=/etc/nginx/sites-available/default
+  notify:
+    - restart nginx
+
+#########################################################
+
 - name: Check Static Development Environment
   shell: "cat {{ STATIC_SRC }}/node_modules/{{ item.name }}/package.json | jq -r '.version'"
   with_items: "{{ STATIC_DEV_DEPS }}"
   register: installed_npm_pkgs
-  failed_when: no
-  changed_when: installed_npm_pkgs.stdout != "{{ item.version }}"
+  failed_when: False
+  changed_when: False
+  #changed_when: installed_npm_pkgs.stdout != "{{ item.version }}"
 
 - name: Install Static Development Libraries to Environment
   npm: name={{ item.item.name }} version={{ item.item.version }} state=present

@@ -10,7 +10,7 @@ VENV_PATH: /home/vagrant/.venvs/sparc2
 
 STATIC_SRC: /home/vagrant/sparc2.git/sparc2/static/sparc2
 STATIC_DEST: /var/www
-
+STATIC_ROOT: /var/www/static  # Used by sparc2_webserver_static / nginx config
 WWW_ROOT: /var/www
 
 PRJ_PARENT_PATH: /home/vagrant
@@ -46,3 +46,16 @@ COMMON_EDITABLE_PACKAGES:  # For role "common_editable"
   - name: geosite-framework-django
     parent: /home/vagrant
     path: geosite-framework-django.git
+
+
+# Added to pg_hba.conf in sparc2_db role
+PATH_PG_HBA: "/etc/postgresql/9.3/main/pg_hba.conf"
+PATH_PG_CONF: "/etc/postgresql/9.3/main/postgresql.conf"
+
+DATABASE_ACL:
+  - "local {{ DB_NAME }} {{ DB_USER }} md5"
+  - "host {{ DB_NAME }} {{ DB_USER }} 127.0.0.1/32 md5"
+  - "host {{ DB_NAME }} {{ DB_USER }} 10.0.2.2/32 md5"
+
+DATABASE_LISTEN_ADDRESSES:
+  - "*"

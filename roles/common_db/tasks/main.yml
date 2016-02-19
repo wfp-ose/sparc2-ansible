@@ -48,3 +48,10 @@
   postgresql_ext:
     name: fuzzystrmatch
     db: template_postgis
+
+- name: Create unaccent Extension
+  become: yes
+  become_user: postgres
+  postgresql_ext:
+    name: unaccent
+    db: template_postgis

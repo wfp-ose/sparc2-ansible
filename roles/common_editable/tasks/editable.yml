@@ -8,6 +8,7 @@
   shell: "{{ VENV_PATH }}/bin/pip list -e | grep \"^{{ pkg.name }} \""
   ignore_errors: yes
   register: editable_result
+  changed_when: False
 
 - name: "{{ pkg.name }} / install as editable"
   shell: "{{ VENV_PATH }}/bin/pip install -e {{ pkg.path }}"

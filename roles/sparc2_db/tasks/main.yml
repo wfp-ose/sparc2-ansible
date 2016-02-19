@@ -29,3 +29,16 @@
     privs: ALL
     type: schema
     objs: public
+
+- name: "Add access to pg_hba.conf for DB users"
+  become: yes
+  become_user: postgres
+  lineinfile: "dest={{ PATH_PG_HBA }} line={{ item }} create=yes"
+  with_items: "{{ DATABASE_ACL }}"
+  notify: restart postgresql
+
+- name: "Add access to postgresql.conf for IP Addresses"
+  become: yes
+  become_user: postgres
+  lineinfile: dest={{ PATH_PG_CONF }} regexp="^#?listen_addresses\\s*=" line="listen_addresses = '{{ DATABASE_LISTEN_ADDRESSES | join(',') }}'" state=present
+  notify: restart postgresql
