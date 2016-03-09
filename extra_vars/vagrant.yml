@@ -1,0 +1,21 @@
+---
+
+OS_USER: vagrant
+
+DATABASE_ACL:
+  - "local {{ DB_NAME }} {{ DB_USER }} md5"
+  - "host {{ DB_NAME }} {{ DB_USER }} 127.0.0.1/32 md5"
+
+DATABASE_LISTEN_ADDRESSES:
+  - "*"
+
+SUPERVISOR_CONFIG_PATH: "{{ PRJ_REPO_PATH_MAIN }}/supervisord.conf"
+
+SUPERVISOR_PROGRAMS:
+  - "sparc2:memcached"
+  - "sparc2:gunicorn"
+
+RUNTIME_PACKAGES:
+  - "gunicorn"
+
+GUNICORN_BIND: "127.0.0.1:8000"

@@ -21,3 +21,12 @@
     - git
     - unzip
     - jq
+    - python-dev
+    - python-pip
+
+- name: Install Python Libraries"
+  become: yes
+  become_user: root
+  pip: name={{ item }} state=present
+  with_items:
+    - pexpect  # Needed by Ansible expect module

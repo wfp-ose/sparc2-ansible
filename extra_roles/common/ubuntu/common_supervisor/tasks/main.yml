@@ -1,0 +1,25 @@
+---
+
+# killall with '-w' switches killall to synchronous mode.  It'll wait for the process to die before returning.
+- name: "Kill Supervisord"
+  become: yes
+  become_user: root
+  shell: "killall -w supervisord"
+  failed_when: false
+
+- name: "Start Supervisord"
+  shell: "supervisord"
+  args:
+    chdir: "{{ PRJ_REPO_PATH_MAIN }}"
+  failed_when: false
+
+- name: "Restart Geosite Server"
+  shell: "supervisorctl restart {{ item }}"
+  args:
+    chdir: "{{ PRJ_REPO_PATH_MAIN }}"
+  with_items: "{{ SUPERVISOR_PROGRAMS }}"
+  failed_when: false
+
+#- name: "Restart Geosite Server"
+#  supervisorctl: name={{ item }} state=restarted config="{{ SUPERVISOR_CONFIG_PATH }}" server_url=http://localhost:9001
+#  with_items: "{{ SUPERVISOR_PROGRAMS }}"

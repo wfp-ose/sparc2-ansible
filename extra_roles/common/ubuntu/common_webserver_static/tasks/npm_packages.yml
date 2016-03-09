@@ -1,0 +1,21 @@
+---
+
+- set_fact: static_package_dir="{{ item.value }}"
+
+- shell: "cat {{ static_package_dir }}/package.json | jq -r '.devDependencies'"
+  register: result
+
+- set_fact: devDependencies="{{ result.stdout | from_json }}"
+
+- name: Check Static Development Environment
+  shell: "cat {{ static_package_dir }}/node_modules/{{ item.key }}/package.json | jq -r '.version'"
+  with_dict: "{{ devDependencies }}"
+  register: version_check
+  changed_when: no
+  failed_when: no
+
+- name: Install Missing Static Development Libraries to Local Environment
+  npm: name={{ item.item.key }} version={{ item.item.value }} path="{{ static_package_dir }}" state=present
+  with_items: version_check.results
+  when:
+    item.stdout == "" or (item.item.value != "*" and item.stdout != item.item.value)
