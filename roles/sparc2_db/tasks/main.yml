@@ -33,7 +33,7 @@
 - name: "Add access to pg_hba.conf for DB users"
   become: yes
   become_user: postgres
-  lineinfile: "dest={{ PATH_PG_HBA }} line={{ item }} create=yes"
+  lineinfile: "dest={{ PATH_PG_HBA }} regexp="{{ item.regexp }}" line="{{ item.line }}" state=present create=yes"
   with_items: "{{ DATABASE_ACL }}"
   notify: restart postgresql
 
