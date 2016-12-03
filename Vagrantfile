@@ -41,8 +41,14 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder "~/workspaces/public/sparc2.git", "/home/vagrant/sparc2.git"
-  config.vm.synced_folder "~/workspaces/public/geosite-framework-django.git", "/home/vagrant/geosite-framework-django.git"
-  config.vm.synced_folder "~/data/sparc/sparc2", "/home/vagrant/data"
+  config.vm.synced_folder "~/workspaces/public/geodash-framework-django.git", "/home/vagrant/geodash-framework-django.git"
+  config.vm.synced_folder "~/workspaces/public/geodash-base.git", "/home/vagrant/geodash-base.git"
+  #config.vm.synced_folder "~/workspaces/public/geodash.js.git", "/home/vagrant/geodash.js.git"
+  config.vm.synced_folder "~/workspaces/public/sparc2-core.js.git", "/home/vagrant/sparc2-core.js.git"
+  config.vm.synced_folder "~/workspaces/public/sparc2-plugin-calendar.git", "/home/vagrant/sparc2-plugin-calendar.git"
+  config.vm.synced_folder "~/workspaces/public/sparc2-plugin-sidebar.git", "/home/vagrant/sparc2-plugin-sidebar.git"
+  #config.vm.synced_folder "~/workspaces/public/sparc2-plugin-welcome.git", "/home/vagrant/sparc2-plugin-welcome.git"
+  #config.vm.synced_folder "~/workspaces/public/geodash-plugin-map-map.git", "/home/vagrant/geodash-plugin-map-map.git"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.

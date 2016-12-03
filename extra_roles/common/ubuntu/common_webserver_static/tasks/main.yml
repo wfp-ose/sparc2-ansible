@@ -22,6 +22,7 @@
   npm: name={{ item }} state=present global=yes
   with_items:
     - gulp
+    - grunt
 
 - include: npm_packages.yml
   with_dict: "{{ STATIC_SRC }}"
